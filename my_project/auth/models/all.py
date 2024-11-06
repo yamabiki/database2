@@ -39,38 +39,6 @@ class Snack(db.Model):
             "brand_id": self.brand_id
         }
 
-
-# Модель для таблиці VendingMachines
-class VendingMachine(db.Model):
-    __tablename__ = 'vending_machines'
-
-    machine_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    address = db.Column(db.String(45), nullable=True)
-    gps_latitude = db.Column(db.Float, nullable=True)
-    gps_longitude = db.Column(db.Float, nullable=True)
-    last_loaded_date = db.Column(db.Date, nullable=True)
-    last_collected_date = db.Column(db.Date, nullable=True)
-    collected_amount = db.Column(db.Float, nullable=True)
-
-    # Зв'язки з Loading, CoinLoading, CoinExtraction, VendingMachineStock, Sales
-    loadings = db.relationship('Loading', back_populates='vending_machine')
-    coin_loadings = db.relationship('CoinLoading', back_populates='vending_machine')
-    coin_extractions = db.relationship('CoinExtraction', back_populates='vending_machine')
-    stocks = db.relationship('VendingMachineStock', back_populates='vending_machine')
-    sales = db.relationship('Sale', back_populates='vending_machine')
-
-    def to_dict(self):
-        return {
-            "machine_id": self.machine_id,
-            "address": self.address,
-            "gps_latitude": self.gps_latitude,
-            "gps_longitude": self.gps_longitude,
-            "last_loaded_date": self.last_loaded_date.isoformat() if self.last_loaded_date else None,
-            "last_collected_date": self.last_collected_date.isoformat() if self.last_collected_date else None,
-            "collected_amount": self.collected_amount
-        }
-
-
 # Модель для таблиці LoadingDetail
 class LoadingDetail(db.Model):
     __tablename__ = 'loadin_detail'

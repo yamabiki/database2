@@ -1,6 +1,6 @@
 from db_init import db
 from datetime import datetime
-from my_project.auth.models.all import Snack, VendingMachine
+from my_project.auth.models.all import Snack
 from my_project.auth.models.technician import Technician
 
 
@@ -12,8 +12,10 @@ class Loading(db.Model):
     tenchician_id = db.Column(db.Integer, db.ForeignKey('technichians.tenchician_id', ondelete="CASCADE"), nullable=False)
     loading_date = db.Column(db.Date, nullable=True)
 
+    # Відношення з таблицею Technician
     technician = db.relationship('Technician', back_populates='loadings')
 
+    # Відношення з таблицею VendingMachine
     vending_machine = db.relationship('VendingMachine', back_populates='loadings')
 
     def __repr__(self):
