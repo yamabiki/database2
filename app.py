@@ -5,7 +5,7 @@ from my_project.auth.route.technician_route import technician_bp
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:{password}!@localhost/jasper'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/jasper'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
