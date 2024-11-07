@@ -14,13 +14,11 @@ def get_loading_by_id(loading_id):
 
 @loading_bp.route('/loading', methods=['POST'])
 def create_loading():
-    data = request.get_json()
-    return LoadingController.create_loading(data)
+    return LoadingController.create_loading()
 
 @loading_bp.route('/loading/<int:loading_id>', methods=['PUT'])
 def update_loading(loading_id):
-    data = request.get_json()
-    return LoadingController.update_loading(loading_id, data)
+    return LoadingController.update_loading(loading_id)
 
 @loading_bp.route('/loading/<int:loading_id>', methods=['DELETE'])
 def delete_loading(loading_id):

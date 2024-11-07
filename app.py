@@ -6,7 +6,7 @@ from my_project.auth.route.vendingmachine_route import vending_machine_bp
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/jasper'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:ANDerander123!@localhost/jasper'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)

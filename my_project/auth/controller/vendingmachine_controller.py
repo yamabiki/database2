@@ -14,14 +14,12 @@ class VendingMachineController:
         return jsonify(vending_machine.to_dict()) if vending_machine else (jsonify({"error": "Vending machine not found"}), 404)
 
     @staticmethod
-    def create_vending_machine():
-        vending_machine_data = request.json
+    def create_vending_machine(vending_machine_data: dict):
         vending_machine = VendingMachineService.create_vending_machine(db.session, vending_machine_data)
         return jsonify(vending_machine.to_dict()), 201
 
     @staticmethod
-    def update_vending_machine(vending_machine_id: int):
-        updated_data = request.json
+    def update_vending_machine(vending_machine_id: int, updated_data: dict):
         vending_machine = VendingMachineService.update_vending_machine(db.session, vending_machine_id, updated_data)
         return jsonify(vending_machine.to_dict()) if vending_machine else (jsonify({"error": "Vending machine not found"}), 404)
 
