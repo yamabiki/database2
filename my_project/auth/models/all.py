@@ -58,7 +58,6 @@ class LoadingDetail(db.Model):
         }
 
 
-# Модель для таблиці CoinLoading
 class CoinLoading(db.Model):
     __tablename__ = 'coin_loading'
 
@@ -110,13 +109,12 @@ class CoinExtraction(db.Model):
 class VendingMachineStock(db.Model):
     __tablename__ = 'vending_machine_stock'
 
-    machine_id = db.Column(db.Integer, db.ForeignKey('vending_machines.machine_id', ondelete="CASCADE"), primary_key=True)
-    snack_id = db.Column(db.Integer, db.ForeignKey('snacks.snack_id', ondelete="CASCADE"), primary_key=True)
+    machine_id = db.Column(db.Integer, db.ForeignKey('vending_machines.machine_id', ondelete='CASCADE'), primary_key=True)
+    snack_id = db.Column(db.Integer, db.ForeignKey('snacks.snack_id'), primary_key=True)
     current_quantity = db.Column(db.Integer, nullable=True)
 
-    # Зв'язки з таблицями VendingMachine, Snack
     vending_machine = db.relationship('VendingMachine', back_populates='stocks')
-    snack = db.relationship('Snack', back_populates='stocks')
+    snack = db.relationship('Snack')
 
     def to_dict(self):
         return {
@@ -135,7 +133,6 @@ class Sale(db.Model):
     machine_id = db.Column(db.Integer, db.ForeignKey('vending_machines.machine_id', ondelete="CASCADE"), nullable=False)
     snack_id = db.Column(db.Integer, db.ForeignKey('snacks.snack_id', ondelete="CASCADE"), nullable=False)
     quantity_sold = db.Column(db.Integer, nullable=True)
-    total_price = db.Column(db.Float, nullable=True)
 
     # Зв'язки з таблицями VendingMachine, Snack
     vending_machine = db.relationship('VendingMachine', back_populates='sales')
@@ -148,5 +145,4 @@ class Sale(db.Model):
             "machine_id": self.machine_id,
             "snack_id": self.snack_id,
             "quantity_sold": self.quantity_sold,
-            "total_price": self.total_price
         }

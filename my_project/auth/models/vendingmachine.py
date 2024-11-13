@@ -16,11 +16,11 @@ class VendingMachine(db.Model):
     collected_amount = db.Column(db.Float, nullable=True)
 
     # Зв'язки з Loading, CoinLoading, CoinExtraction, VendingMachineStock, Sales
-    loadings = db.relationship('Loading', back_populates='vending_machine')
-    coin_loadings = db.relationship('CoinLoading', back_populates='vending_machine')
-    coin_extractions = db.relationship('CoinExtraction', back_populates='vending_machine')
-    stocks = db.relationship('VendingMachineStock', back_populates='vending_machine')
-    sales = db.relationship('Sale', back_populates='vending_machine')
+    loadings = db.relationship('Loading', back_populates='vending_machine', cascade='all, delete-orphan')
+    coin_loadings = db.relationship('CoinLoading', back_populates='vending_machine', cascade='all, delete-orphan')
+    coin_extractions = db.relationship('CoinExtraction', back_populates='vending_machine', cascade='all, delete-orphan')
+    stocks = db.relationship('VendingMachineStock', back_populates='vending_machine', cascade='all, delete-orphan')
+    sales = db.relationship('Sale', back_populates='vending_machine', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
