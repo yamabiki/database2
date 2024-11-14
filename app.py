@@ -3,6 +3,9 @@ from db_init import db
 from my_project.auth.route.loading_route import loading_bp
 from my_project.auth.route.technician_route import technician_bp
 from my_project.auth.route.vendingmachine_route import vending_machine_bp
+from my_project.auth.route.loading_route import loadin_detail_bp
+from my_project.auth.route.snack_route import snack_bp
+from my_project.auth.route.brand_route import brand_bp
 
 
 app = Flask(__name__)
@@ -13,6 +16,9 @@ db.init_app(app)
 app.register_blueprint(loading_bp, url_prefix='/api')
 app.register_blueprint(technician_bp, url_prefix='/api')
 app.register_blueprint(vending_machine_bp, url_prefix='/api')
+app.register_blueprint(brand_bp, url_prefix='/api')
+app.register_blueprint(snack_bp, url_prefix='/api')
+app.register_blueprint(loadin_detail_bp, url_prefix='/api')
 
 with app.app_context():
     db.create_all()

@@ -1,6 +1,5 @@
 from db_init import db
 from datetime import datetime
-from my_project.auth.models.all import Snack
 from my_project.auth.models.technician import Technician
 
 

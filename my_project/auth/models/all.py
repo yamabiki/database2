@@ -1,6 +1,22 @@
 from db_init import db
 from datetime import date
 
+class LoadinDetail(db.Model):
+    __tablename__ = 'loadin_detail'
+
+    loading_id = db.Column(db.Integer, db.ForeignKey('loading.loading_id', ondelete="CASCADE"), primary_key=True)
+    snack_id = db.Column(db.Integer, db.ForeignKey('snacks.snack_id', ondelete="CASCADE"), primary_key=True)
+    snack = db.relationship('Snack', back_populates='loadin_details')
+    loading = db.relationship('Loading', back_populates='loadin_details')
+
+    def to_dict(self):
+        return {
+            "loading_id": self.loading_id,
+            "snack_id": self.snack_id,
+            "loading": self.loading.to_dict() if self.loading else None,  # Вивести дані по loading
+            "snack": self.snack.to_dict() if self.snack else None
+        }
+
 # Модель для таблиці Brand
 class Brand(db.Model):
     __tablename__ = 'brand'
@@ -28,7 +44,7 @@ class Snack(db.Model):
     # Зв'язок з таблицею Brand
     brand = db.relationship('Brand', back_populates='snacks')
     # Зв'язки з LoadinDetail, VendingMachineStock, Sales
-    loadin_details = db.relationship('LoadingDetail', back_populates='snack')
+    loadin_details = db.relationship('LoadinDetail', back_populates='snack')
     stocks = db.relationship('VendingMachineStock', back_populates='snack')
     sales = db.relationship('Sale', back_populates='snack')
 
@@ -40,22 +56,7 @@ class Snack(db.Model):
         }
 
 # Модель для таблиці LoadingDetail
-class LoadingDetail(db.Model):
-    __tablename__ = 'loadin_detail'
 
-    loading_id = db.Column(db.Integer, db.ForeignKey('loading.loading_id', ondelete="CASCADE"), primary_key=True)
-    snack_id = db.Column(db.Integer, db.ForeignKey('snacks.snack_id', ondelete="CASCADE"), primary_key=True)
-    quantity_loaded = db.Column(db.Integer, nullable=True)
-
-    # Зв'язок з таблицею Snack
-    snack = db.relationship('Snack', back_populates='loadin_details')
-
-    def to_dict(self):
-        return {
-            "loading_id": self.loading_id,
-            "snack_id": self.snack_id,
-            "quantity_loaded": self.quantity_loaded
-        }
 
 
 class CoinLoading(db.Model):

@@ -1,7 +1,8 @@
 from db_init import db
 from datetime import datetime
-from my_project.auth.models.all import Snack
+from my_project.auth.models.all import LoadinDetail, Snack
 from my_project.auth.models.technician import Technician
+
 
 
 class Loading(db.Model):
@@ -17,6 +18,7 @@ class Loading(db.Model):
 
     # Відношення з таблицею VendingMachine
     vending_machine = db.relationship('VendingMachine', back_populates='loadings')
+    loadin_details = db.relationship('LoadinDetail', back_populates='loading')
 
     def __repr__(self):
         return f"<Loading(loading_id={self.loading_id}, machine_id={self.machine_id}, loading_date='{self.loading_date}')>"
@@ -28,3 +30,4 @@ class Loading(db.Model):
             "tenchician_id": self.tenchician_id,
             "loading_date": self.loading_date
         }
+

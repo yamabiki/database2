@@ -1,5 +1,9 @@
 from flask import jsonify, request
 from my_project.auth.service.loading_service import LoadingService
+from my_project.auth.dao.loading_dao import LoadinDetailDAO
+from my_project.auth.models.loading import Loading
+from my_project.auth.models.all import Snack
+from my_project.auth.models.loading import LoadinDetail
 from db_init import db
 from datetime import datetime
 
@@ -46,3 +50,34 @@ class LoadingController:
     def delete_loading(loading_id: int):
         loading = LoadingService.delete_loading(db.session, loading_id)
         return jsonify({"message": "Loading deleted"}) if loading else (jsonify({"error": "Loading not found"}), 404)
+
+
+    @staticmethod
+    def create_loadin_detail():
+        loadin_detail_data = request.json
+
+        # Перевірка наявності потрібних даних у запиті
+        loading_id = loadin_detail_data.get('loading_id')
+        snack_id = loadin_detail_data.get('snack_id')
+
+        # Перевірка, чи існують відповідні записи в таблицях Loading і Snack
+        loading = db.session.query(Loading).filter(Loading.loading_id == loading_id).first()
+        snack = db.session.query(Snack).filter(Snack.snack_id == snack_id).first()
+
+        if not loading:
+            return jsonify({"message": "Loading not found"}), 404
+        if not snack:
+            return jsonify({"message": "Snack not found"}), 404
+
+        # Створюємо новий запис у таблиці LoadinDetail
+        new_loadin_detail = LoadinDetail(
+            loading_id=loading_id,
+            snack_id=snack_id,
+        )
+
+        # Додаємо новий запис у базу
+        db.session.add(new_loadin_detail)
+        db.session.commit()
+
+        # Повертаємо успішну відповідь з даними нового запису
+        return jsonify(new_loadin_detail.to_dict()), 201
