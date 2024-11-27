@@ -9,7 +9,7 @@ from my_project.auth.route.brand_route import brand_bp
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:ANDerander123!@localhost/jasper'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:{password}@localhost/jasper'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
