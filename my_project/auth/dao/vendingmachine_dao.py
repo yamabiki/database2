@@ -1,4 +1,5 @@
 from my_project.auth.models.vendingmachine import VendingMachine
+from sqlalchemy import func
 
 class VendingMachineDAO:
     @staticmethod
@@ -38,3 +39,17 @@ class VendingMachineDAO:
         vending_machines = session.query(VendingMachine).all()
         vending_machines_data = [vending_machine.to_dict() for vending_machine in vending_machines]
         return vending_machines_data
+
+    @staticmethod
+    def get_aggregation(session, operation):
+        """Отримати агрегатне значення по полю collected_amount для таблиці vending_machines."""
+        if operation == 'MAX':
+            return session.query(func.max(VendingMachine.collected_amount)).scalar()
+        elif operation == 'MIN':
+            return session.query(func.min(VendingMachine.collected_amount)).scalar()
+        elif operation == 'SUM':
+            return session.query(func.sum(VendingMachine.collected_amount)).scalar()
+        elif operation == 'AVG':
+            return session.query(func.avg(VendingMachine.collected_amount)).scalar()
+        else:
+            return None

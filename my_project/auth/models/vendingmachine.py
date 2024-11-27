@@ -20,6 +20,7 @@ class VendingMachine(db.Model):
     coin_extractions = db.relationship('CoinExtraction', back_populates='vending_machine', cascade='all, delete-orphan')
     stocks = db.relationship('VendingMachineStock', back_populates='vending_machine', cascade='all, delete-orphan')
     sales = db.relationship('Sale', back_populates='vending_machine', cascade='all, delete-orphan')
+    technicians = db.relationship('TechnicianHasVendingMachine', back_populates='vending_machine')
 
     def to_dict(self):
         return {

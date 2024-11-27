@@ -10,6 +10,7 @@ class Technician(db.Model):
     loadings = db.relationship('Loading', back_populates='technician', foreign_keys='Loading.tenchician_id', cascade="all, delete-orphan")
     coin_loadings = db.relationship('CoinLoading', back_populates='technician', foreign_keys='CoinLoading.technichian_id', cascade="all, delete-orphan")
     coin_extractions = db.relationship('CoinExtraction', back_populates='technician', foreign_keys='CoinExtraction.technichian_id', cascade="all, delete-orphan")
+    vending_machines = db.relationship('TechnicianHasVendingMachine', back_populates='technician')
 
     def to_dict(self):
         return {

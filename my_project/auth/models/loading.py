@@ -18,7 +18,7 @@ class Loading(db.Model):
 
     # Відношення з таблицею VendingMachine
     vending_machine = db.relationship('VendingMachine', back_populates='loadings')
-    loadin_details = db.relationship('LoadinDetail', back_populates='loading')
+    loadin_details = db.relationship('LoadinDetail', back_populates='loading', cascade='all, delete-orphan')
 
     def __repr__(self):
         return f"<Loading(loading_id={self.loading_id}, machine_id={self.machine_id}, loading_date='{self.loading_date}')>"

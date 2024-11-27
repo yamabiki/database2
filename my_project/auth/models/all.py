@@ -13,7 +13,7 @@ class LoadinDetail(db.Model):
         return {
             "loading_id": self.loading_id,
             "snack_id": self.snack_id,
-            "loading": self.loading.to_dict() if self.loading else None,  # Вивести дані по loading
+            "loading": self.loading.to_dict() if self.loading else None,
             "snack": self.snack.to_dict() if self.snack else None
         }
 
@@ -112,7 +112,6 @@ class VendingMachineStock(db.Model):
 
     machine_id = db.Column(db.Integer, db.ForeignKey('vending_machines.machine_id', ondelete='CASCADE'), primary_key=True)
     snack_id = db.Column(db.Integer, db.ForeignKey('snacks.snack_id'), primary_key=True)
-    current_quantity = db.Column(db.Integer, nullable=True)
 
     vending_machine = db.relationship('VendingMachine', back_populates='stocks')
     snack = db.relationship('Snack')
@@ -121,7 +120,6 @@ class VendingMachineStock(db.Model):
         return {
             "machine_id": self.machine_id,
             "snack_id": self.snack_id,
-            "current_quantity": self.current_quantity
         }
 
 
@@ -146,4 +144,38 @@ class Sale(db.Model):
             "machine_id": self.machine_id,
             "snack_id": self.snack_id,
             "quantity_sold": self.quantity_sold,
+        }
+
+class Promotion(db.Model):
+    __tablename__ = 'promotions'
+
+    promotion_id = db.Column(db.Integer, primary_key=True)
+    snack_id = db.Column(db.Integer, nullable=False)
+    promotion_details = db.Column(db.String(255), nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
+
+    def to_dict(self):
+        return {
+            "promotion_id": self.promotion_id,
+            "snack_id": self.snack_id,
+            "promotion_details": self.promotion_details,
+            "start_date": self.start_date.isoformat(),
+            "end_date": self.end_date.isoformat(),
+        }
+
+
+class TechnicianHasVendingMachine(db.Model):
+    __tablename__ = 'technician_has_vending_machine'
+
+    technician_id = db.Column(db.Integer, db.ForeignKey('technichians.tenchician_id', ondelete='CASCADE'), primary_key=True)
+    machine_id = db.Column(db.Integer, db.ForeignKey('vending_machines.machine_id', ondelete='CASCADE'), primary_key=True)
+
+    technician = db.relationship('Technician', back_populates='vending_machines')
+    vending_machine = db.relationship('VendingMachine', back_populates='technicians')
+
+    def to_dict(self):
+        return {
+            "technician_id": self.technician_id,
+            "machine_id": self.machine_id,
         }
